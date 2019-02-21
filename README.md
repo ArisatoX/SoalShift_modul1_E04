@@ -25,6 +25,26 @@ Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda diminta un
     
     Pertama membaca file csv dengan cat. `FS=","`menjadikan field separator dengan koma. Setelah itu mengisi array of Country dengan isi Quantity product (dengan syarat Year==2012) disetiap barisnya. Hasil dari array tersebut disort dan diambil Country dengan Quantity yang tertinggi dan hasil disimpan ke file `soal2a.txt`
 2. Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
+    
+    ```bash
+    x=`cat soal2a.txt`
+    #mengambil data country dari soal sebelumnya
+    
+    `cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv | awk -v var="$x" '{FS=","}{if($7==2012 && $1==var)print $1","$7","$4","$10}' | awk '{FS=","} {arr[$3]+=$4} END {for(a in arr) print arr[a]","a}' | sort -rg |awk 'NR < 4' |awk 'BEGIN {FS=","}{print $2}' > soal2b.txt`
+    ```
+    - Membaca file csv dengan perintah `cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv`. 
+    
+    - Setelah itu menjalankan command `awk -v var="$x" '{FS=","}{if($7==2012 && $1==var)print $1","$7","$4","$10}'` dengan menambahkan parameter `-v var="$x"` untuk memasukkan variable x ke dalam awk. Hasil yang akan dikeluarkan adalah `Country,Year,Product Line,Quantity`
+    - Output dari command awk sebelumnya dijadikan sebagai input command awk berikut 
+      ```bash
+      awk '{FS=","} {arr[$3]+=$4} END {for(a in arr) print arr[a]","a}'
+      ```
+      Maksud dari command awk di atas adalah pertama membuat array of Product Line dengan isi jumlah Quantity dari setiap barisnya. Setelah itu pada bagian akhir mengekstrak array tersebut sehingga output yang dihasilkan adalah beberapa baris dari `Quantity,Product Line`.
+    - Selanjutnya output dari command awk di atas dijadikan input untuk command berikut
+      ```bash
+      sort -rg |awk 'NR < 4' |awk 'BEGIN {FS=","}{print $2}' > soal2b.txt
+      ```
+      Maksud dari command di atas adalah mengurutkan hasil sebelumnya lalu mengambil 3 baris paling atas dan selanjutnya mengeprint Product Line.
 3. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
 ### 3. No 3
 ##### Soal
