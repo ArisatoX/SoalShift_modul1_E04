@@ -39,13 +39,37 @@ Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda diminta un
       ```bash
       awk '{FS=","} {arr[$3]+=$4} END {for(a in arr) print arr[a]","a}'
       ```
-      Maksud dari command awk di atas adalah pertama membuat array of Product Line dengan isi jumlah Quantity dari setiap barisnya. Setelah itu pada bagian akhir mengekstrak array tersebut sehingga output yang dihasilkan adalah beberapa baris dari `Quantity,Product Line`.
+      Maksud dari command awk di atas adalah menghitung jumlah Quantity setiap Product Line. Setelah itu mencetak beberapa baris dari `Quantity,Product Line`.
     - Selanjutnya output dari command awk di atas dijadikan input untuk command berikut
       ```bash
       sort -rg |awk 'NR < 4' |awk 'BEGIN {FS=","}{print $2}' > soal2b.txt
       ```
-      Maksud dari command di atas adalah mengurutkan hasil sebelumnya lalu mengambil 3 baris paling atas dan selanjutnya mengeprint Product Line.
+      Maksud dari command di atas adalah mengurutkan hasil sebelumnya lalu mengambil 3 baris paling atas dan selanjutnya mengeprint Product Line dan hasil output tersebut disimpan ke dalam file soal2b.txt.
 3. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
+    ```bash
+    #mengambil hasil dari soal sebelumnya dan dijadikan sebagai variable y1, y2, y3
+    y1=`cat soal2b.txt | awk NR==1`
+    y2=`cat soal2b.txt | awk NR==2`
+    y3=`cat soal2b.txt | awk NR==3`
+    
+    `cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv| awk -v var="$x" -v var1="$y1" -v var2="$y2" -v var3="$y3" 'BEGIN {FS=","}{if($7==2012 && $1==var && ($4 == var1|| $4==var2 || $4 ==var3))print $1","$7","$6","$10}' |  awk 'FS=","{arr[$3]+=$4} END {for(a in arr) print arr[a]","a}' | sort -rg|awk 'NR < 4' |awk 'BEGIN{FS=","}{print $2}' > soal2c.txt`
+    ```
+    - Membaca file csv dengan perintah `cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv`. 
+    - Output dari cat dijadikan input untuk command berikut dan memasukkan variable x(Negara), dan y1,y2,y3 (Product Line) ke dalam awk
+      ```bash
+      awk -v var="$x" -v var1="$y1" -v var2="$y2" -v var3="$y3" 'BEGIN {FS=","}{if($7==2012 && $1==var && ($4 == var1|| $4==var2 || $4 ==var3))print $1","$7","$6","$10}'
+      ```
+      Maksud dari command di atas adalah mencetak `Country,Year,Product,Quantity` dengan syarat Year=2012 dan Country=$x (negara pada soal a), dan Product Line = $y1 atau $y2 atau $y3 (product line pada soal b)
+    - Selanjutnya adalah menjalankan command berikut dengan input dari output command di atas
+      ```bash
+      awk 'FS=","{arr[$3]+=$4} END {for(a in arr) print arr[a]","a}'
+      ```
+      Maksud dari command di atas adalah menghitung Quantity setiap Product. Setelah itu mencetak beberapa baris dari `Quantity,Product`
+    - Selanjutnya menjalankan command berikut
+      ```bash
+      sort -rg|awk 'NR < 4' |awk 'BEGIN{FS=","}{print $2}' > soal2c.txt`
+      ```
+      Maksud dari command di atas adalah mengurutkan hasil output command sebelumnya dengan descending lalu mengambil 3 product teratas dan mencetak `Product` yang akan disimpan ke file soal2c.txt.
 ### 3. No 3
 ##### Soal
 Buatlah sebuah script bash yang dapat menghasilkan password secara acak
