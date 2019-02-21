@@ -2,10 +2,20 @@
 
 x=1;
 
-while test -e "/home/arisatox/soal3/password$x.txt";
+fname="password$x.txt"
+
+pass=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c12`
+
+while test -e $fname;
 do
+	if [ "$pass" = "`cat $fname`" ]; then
+		pass=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c12`
+		x=1
+		fname="password$x.txt"
+		continue
+	fi
 	(( ++ x ))
+	fname="password$x.txt"
 done
 
-fname="password$x.txt"
-< /dev/urandom tr -dc A-Za-z0-9 | head -c12 > /home/arisatox/soal3/password$x.txt
+echo $pass > $fname
