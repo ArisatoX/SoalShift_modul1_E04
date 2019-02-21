@@ -9,6 +9,10 @@ Pertama mengekstrak file zip dengan cara unzip file
 base64 -d /home/arisatox/Downloads/nature/$x | xxd -r > /home/arisatox/Downloads/tes/$x
 ```
 Setelah itu mendecode setiap file. Hasil dari decode tersebut di kembalikan/reverse menjadi file dengan perintah `xxd -r`
+```bash
+14 14 14 2 5 /bin/bash /path/to/script.sh
+```
+Untuk crontab menggunakan konfigurasi seperti di atas.
 ## No 2
 ##### Soal
 Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda diminta untuk memberikan laporan berdasarkan file WA_Sales_Products_2012-14.csv. Laporan yang diminta berupa:
@@ -61,6 +65,12 @@ atas=${upperCase[$jam]}
 cat "/var/log/syslog" | tr '[a-z]' "[$bawah-za-$bawah]" | tr '[A-Z]' "[$atas-ZA-$atas]" > "$namafile"
 ```
 Menggunakan command `tr`. File syslog diambil dengan command `cat` setelah itu char yang berada pada range [a-z] akan diubah menjadi [c-za-c] satu persatu apabila $jam menunjukkan 1 (maksudnya a menjadi c, b menjadi d, c menjadi e, dst). Range [b-za-b] maksudnya adalah dari char b s/d z dilanjut a s/d b. Selanjutnya untuk huruf besar dilakukan cara yang sama seperti sebelumnya.
+```bash
+0 * * * * /bin/bash /path/to/script
+#atau
+@hourly /bin/bash /path/to/script    
+```
+Untuk crontab menggunakan konfigurasi seperti di atas.
 ### 5. No 5
 ##### Soal
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi
