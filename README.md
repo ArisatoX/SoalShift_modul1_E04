@@ -19,7 +19,9 @@ Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda diminta un
 ##### Jawab
 1. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
 
-    `cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv| awk 'BEGIN {FS=","} {if($7==2012)arr[$1]+=$10}END{for(a in arr)print arr[a]","a}'| sort -rg | awk 'NR==1'|awk 'BEGIN {FS=","}{print $2}' > soal2a.txt`
+    ```bash
+    cat /home/arisatox/Downloads/WA_Sales_Products_2012-14.csv| awk 'BEGIN {FS=","} {if($7==2012)arr[$1]+=$10}END{for(a in arr)print arr[a]","a}'| sort -rg | awk 'NR==1'|awk 'BEGIN {FS=","}{print $2}' > soal2a.txt
+    ```
     
     Pertama membaca file csv dengan cat. `FS=","`menjadikan field separator dengan koma. Setelah itu mengisi array of Country dengan isi Quantity product (dengan syarat Year==2012) disetiap barisnya. Hasil dari array tersebut disort dan diambil Country dengan Quantity yang tertinggi dan hasil disimpan ke file `soal2a.txt`
 2. Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
