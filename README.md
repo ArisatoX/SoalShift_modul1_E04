@@ -35,6 +35,32 @@ sebagai berikut:
 3. Urutan nama file tidak boleh ada yang terlewatkan meski filenya dihapus.
 4. Password yang dihasilkan tidak boleh sama.
 ##### Jawab
+```bash
+#!/bin/bash
+
+x=1;
+
+fname="password$x.txt"
+
+pass=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c12`
+#untuk meng-generate password random sepanjang 12 chars dengan kombinasi huruf besar kecil dan angka
+
+while test -e $fname; #mengecek apakah file tersebut sudah ada atau belum, return true jika file tersebut ada
+do
+	if [ "$pass" = "`cat $fname`" ]; then
+    #mengecek apakah isi file sama dengan password yang baru, jika sama buat password baru dan mulai mengecek dari file pertama
+		pass=`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c12`
+		x=1
+		fname="password$x.txt"
+		continue
+	fi
+	(( ++ x ))
+	fname="password$x.txt"
+done
+
+echo $pass > $fname
+#jika tidak ada password yang sama, simpan password baru ke file tersebut
+```
 ### 4. No 4
 ##### Soal
 Lakukan backup file syslog setiap jam dengan format nama file “jam:menit tanggal-bulan-tahun”. Isi dari file backup terenkripsi dengan konversi huruf (string manipulation) yang disesuaikan dengan jam dilakukannya backup misalkan sebagai berikut:
